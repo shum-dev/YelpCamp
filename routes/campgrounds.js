@@ -76,29 +76,29 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,re
         req.body.campground.lat = data[0].latitude;
         req.body.campground.lng = data[0].longitude;
         req.body.campground.location = data[0].formattedAddress;
-    });
 
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
-        if(err){
-            req.flash('error', err.message);
-            return res.redirect("back");
-        }
-        // add cloudinary url for the image to the campground object under image property
-        req.body.campground.image = result.secure_url;
-        req.body.campground.imageId = result.public_id;
-        // add author to campground
-        req.body.campground.author = {
-            id: req.user._id,
-            username: req.user.username
-        }
+        cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+            if(err){
+                req.flash('error', err.message);
+                return res.redirect("back");
+            }
+            // add cloudinary url for the image to the campground object under image property
+            req.body.campground.image = result.secure_url;
+            req.body.campground.imageId = result.public_id;
+            // add author to campground
+            req.body.campground.author = {
+                id: req.user._id,
+                username: req.user.username
+            }
 
-        //Create a new campground
-        Campground.create(req.body.campground, function(err, newlyCreated){
-                if(err){
-                    req.flash("error", err.message);
-                    return res.redirect('back');
-                }
-                res.redirect('/campgrounds/'+ newlyCreated.id);
+            //Create a new campground
+            Campground.create(req.body.campground, function(err, newlyCreated){
+                    if(err){
+                        req.flash("error", err.message);
+                        return res.redirect('back');
+                    }
+                    res.redirect('/campgrounds/'+ newlyCreated.id);
+            });
         });
     });
 });
