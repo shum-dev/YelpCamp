@@ -1,0 +1,40 @@
+<% include ./partials/header %>
+<div class="container">
+    <div>
+    <h1 style="text-align: center; margin: 25px auto;"> Sign Up!</h1>
+    <div style="width: 30%; margin: 30px auto;">
+        <form action="/register" method="POST" style="">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="password">
+            </div>
+            <div class="form-group">
+
+            </div>
+            <div>
+                <label for="adminCheck">Wanna be an admin:</label>
+                <input type="checkbox" id="adminCheck">
+            </div>
+            <div class="form-group">
+                <input type="password" name="adminCode" placeholder="You must to know a key" id="adminField">
+            </div>
+            <button>Sign Up</button>
+
+        </form>
+    </div>
+    </div>
+</div>
+<script>
+    var checkBox = document.getElementById("adminCheck");
+    var adminField = document.getElementById("adminField");
+    checkBox.addEventListener("change", function(){
+      if(checkBox.checked){
+          adminField.style.display = "block";
+      }else{
+          adminField.style.display = "none";
+      }
+    });
+</script>
+<% include ./partials/footer %>

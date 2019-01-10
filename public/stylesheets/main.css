@@ -1,0 +1,16 @@
+div.row .col-md-12{
+    padding:3px;
+}
+
+#delete-form{
+    display: inline;
+}
+/*GoogleMaps*/
+#map{
+    height: 400px;
+    width: 100%;
+}
+
+#adminField{
+    display: none;
+}
