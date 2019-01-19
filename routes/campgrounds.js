@@ -16,7 +16,7 @@ var options = {
 };
 var geocoder = NodeGeocoder(options);
 
-// INDEX - show all campgrounds
+// INDEX
 router.get("/", function (req, res) {
     //Get all campgrounds from DB
     Campground.find({}, function (err, item) {
@@ -29,12 +29,12 @@ router.get("/", function (req, res) {
 
 });
 
-// NEW - show form to create new campground
+// NEW
 router.get("/new", middleware.isLoggedIn, function (req,res) {
     res.render("campgrounds/new.ejs");
 });
 
-// CREATE - add new campground to DB
+// CREATE
 router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,res) {
     geocoder.geocode(req.body.campground.location, function(err, data){
         if(err || !data.length){
@@ -58,8 +58,6 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,re
                 id: req.user._id,
                 username: req.user.username
             }
-
-            //Create a new campground
             Campground.create(req.body.campground, function(err, newlyCreated){
                     if(err){
                         req.flash("error", err.message);
@@ -71,7 +69,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,re
     });
 });
 
-//SHOW - show more info about particular campground
+//SHOW
 router.get("/:id", function (req,res) {
     //find the campground with provided id
     Campground.findById(req.params.id).populate("comments").exec(function (err, item) {

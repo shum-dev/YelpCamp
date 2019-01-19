@@ -4,6 +4,8 @@ var passport = require("passport");
 var User = require('../models/user');
 var Campground = require('../models/campground');
 
+var upload = require('../middleware/multer');
+var cloudinary = require("../middleware/cloudinary");
 
 // ROOT ROUT
 router.get("/", function (req, res) {
@@ -21,30 +23,38 @@ router.get("/register", function (req, res) {
 });
 
 // sign up logic
-router.post("/register", function (req, res) {
-    var newUser = new User(
-        {
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            avatar: req.body.avatar,
-            about: req.body.about
-        });
-
-    if(req.body.adminCode === "admin555"){
-        newUser.isAdmin = true;
-    }
-    User.register(newUser, req.body.password, function (err, item) {
+router.post("/register", upload.single('avatar'), function (req, res) {
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
         if(err){
-            req.flash("error", err.message);
-            return res.redirect('/register');
-        }
-        passport.authenticate('local')(req, res, function () {
-            req.flash('success', "Welcome to YelpCamp " + item.username);
-            res.redirect('/campgrounds');
-        })
-     })
+                req.flash('error', err.message);
+                return res.redirect("back");
+            }
+
+            var newUser = new User(
+                {
+                    username: req.body.username,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    about: req.body.about
+                });
+            if(req.body.adminCode === "admin555"){
+                newUser.isAdmin = true;
+            }
+            newUser.avatar = result.secure_url;
+            newUser.avatarId = result.public_id;
+
+            User.register(newUser, req.body.password, function (err, item) {
+                if(err){
+                    req.flash("error", err.message);
+                    return res.redirect('/register');
+                }
+                passport.authenticate('local')(req, res, function () {
+                    req.flash('success', "Welcome to YelpCamp " + item.username);
+                    res.redirect('/campgrounds');
+                });
+            });
+    });
 });
 
 // LOGIN
