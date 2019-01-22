@@ -50,15 +50,23 @@ cloudinary.config({
 
 // INDEX - show all campgrounds
 router.get("/", function (req, res) {
-    //Get all campgrounds from DB
-    Campground.find({}, function (err, item) {
-        if(err){
-            console.log(err);
-        }else{
-            res.render("campgrounds/index", {campgrounds: item});
-        }
-    });
-
+    var query = req.query.search || "";
+    // if(req.query.search){
+        const regex = new RegExp(escapeRegex(query), "gi");
+        Campground.find({name: regex}, function (err, item) {
+            if(err){
+                console.log(err);
+            }else{
+                var noMatch;
+                if(item.length < 1){
+                    req.flash('error', 'No posts match that query, please try another one ...');
+                    // noMatch = "No posts match that query, please try another one ...";
+                    res.render('campgrounds/index', {campgrounds: item, noMatch: noMatch, message: req.flash('error')});
+                }else{
+                    res.render("campgrounds/index", {campgrounds: item, noMatch: noMatch, message: req.flash('error')});
+                }
+            }
+        });
 });
 
 // NEW - show form to create new campground
@@ -187,5 +195,9 @@ router.delete('/:id', middleware.checkCampgroundOwnership, function (req, res) {
         }
     });
 });
+
+function escapeRegex(text){
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+}
 
 module.exports = router;
