@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-4 text-center">
+        <div class="card border-light" >
+            <h1><%= user.firstName + " " + user.lastName %></h1>
+            <img class="card-img-top" src="<%= user.avatar %>" alt="user profile image">
+            <div class="card-footer text-muted text-left">
+                E-mail: <a href="mailto:<%= user.email %>"><%= user.email %> </a>
+            </div>
+        </div>
+        <div class="text-left">
+            <h2>About me:</h2>
+            <div style="margin-bottom: 25px"> <%= user.about %></div>
+            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                <a class="btn btn-warning btn-sm" href="/users/<%= user.id %>/edit">Edit Profile</a>
+                <form id="delete-form" action="/users/<%= user.id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger btn-sm">Delete Profile</button>
+                </form>
+            <% }; %>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3><%= user.firstName %>'s posts:</h3>
+        <ul>
+            <% campgrounds.forEach(function(campground){ %>
+                <li><a href="/campgrounds/<%=campground._id %>"><%= campground.name %> </a></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+
+<% include ../partials/footer %>

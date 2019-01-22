@@ -17,13 +17,12 @@
                         <li class="ml-5"><a href="/login">Login</a></li>
                         <li class="ml-5"><a href="/register">Sign Up</a></li>
                     <% }else{ %>
-                        <li>Signed In As: <strong><%= currentUser.username %></strong> </li>
+                        <li>Signed In As: <a href="/users/<%= currentUser._id %>"><strong><%= currentUser.username %></strong></a></li>
                         <li class="ml-5"><a href="/logout">Logout</a></li>
                     <% } %>
                 </ul>
         </div>
     </nav>
-
 
     <div class="container">
         <% if(error && error.length > 0 ){ %>
@@ -37,7 +36,4 @@
             </div>
         <% } %>
     </div>
-
-
-
-
+    <div class="container">

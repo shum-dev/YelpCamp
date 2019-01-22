@@ -3,9 +3,11 @@ var router = express.Router();
 var Campground = require("../models/campground");
 var middleware = require("../middleware");
 
+var upload = require("../middleware/multer");
+var cloudinary = require("../middleware/cloudinary");
+
 // Add GeoCoder
 var NodeGeocoder = require("node-geocoder");
-
 var options = {
     provider: 'google',
     httpAdapter: 'https',
@@ -14,41 +16,7 @@ var options = {
 };
 var geocoder = NodeGeocoder(options);
 
-// Add multer and cloudinary config
-    //multer config
-var multer = require('multer');
-    // set storage engine
-var storage = multer.diskStorage({   // set storage engine (when file uploaded it create custom name to this file)
-    filename: function(req, file, callback){
-        callback(null, Date.now() + file.originalname);
-    }
-});
-
-var imageFilter = function(req, file, cb){
-    // var filetypes = /\.(jpg|jpeg|png|gif)$/;
-    var filetypes = /jpg|jpeg|png|gif/i;
-    //accept image files only
-    // if(!file.originalname.match(filetypes) && !file.originalname.match(filetypes)){
-    if(!filetypes.test(file.originalname) && !filetypes.test(file.mimetype)){
-        return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-};
-var upload = multer({
-    storage: storage,
-    fileFilter: imageFilter,
-    limits:{fileSize: 6000000}
-});
-
-    //cloudinary config
-var cloudinary = require('cloudinary');
-cloudinary.config({
-    cloud_name: 'egorshum',
-    api_key: '244394558913856',
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
-
-// INDEX - show all campgrounds
+// INDEX
 router.get("/", function (req, res) {
     var query = req.query.search || "";
     // if(req.query.search){
@@ -69,12 +37,12 @@ router.get("/", function (req, res) {
         });
 });
 
-// NEW - show form to create new campground
+// NEW
 router.get("/new", middleware.isLoggedIn, function (req,res) {
     res.render("campgrounds/new.ejs");
 });
 
-// CREATE - add new campground to DB
+// CREATE
 router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,res) {
     geocoder.geocode(req.body.campground.location, function(err, data){
         if(err || !data.length){
@@ -98,8 +66,6 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,re
                 id: req.user._id,
                 username: req.user.username
             }
-
-            //Create a new campground
             Campground.create(req.body.campground, function(err, newlyCreated){
                     if(err){
                         req.flash("error", err.message);
@@ -111,7 +77,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req,re
     });
 });
 
-//SHOW - show more info about particular campground
+//SHOW
 router.get("/:id", function (req,res) {
     //find the campground with provided id
     Campground.findById(req.params.id).populate("comments").exec(function (err, item) {

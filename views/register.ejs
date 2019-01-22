@@ -3,7 +3,7 @@
     <div>
     <h1 style="text-align: center; margin: 25px auto;"> Sign Up!</h1>
     <div style="width: 30%; margin: 30px auto;">
-        <form action="/register" method="POST" style="">
+        <form action="/register" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" name="username" placeholder="username">
             </div>
@@ -11,7 +11,19 @@
                 <input type="password" name="password" placeholder="password">
             </div>
             <div class="form-group">
-
+                <input type="text" name="firstName" placeholder="first name">
+            </div>
+            <div class="form-group">
+                <input type="text" name="lastName" placeholder="last name">
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="example@mail.com">
+            </div>
+            <div class="form-group">
+                <input type="file" id="avatar" name="avatar" accept="image/*">
+            </div>
+            <div class="form-group">
+                <textarea name="about" placeholder="Shortly about your self" rows="4" cols="50"></textarea>
             </div>
             <div>
                 <label for="adminCheck">Wanna be an admin:</label>
