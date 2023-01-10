@@ -1,30 +1,15 @@
 <% include ./partials/header %>
 <div class="container">
-    <div>
     <h1 style="text-align: center; margin: 25px auto;"> Sign Up!</h1>
-    <div style="width: 30%; margin: 30px auto;">
-        <form action="/register" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <input type="text" name="username" placeholder="username">
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="password">
-            </div>
-            <div class="form-group">
-                <input type="text" name="firstName" placeholder="first name">
-            </div>
-            <div class="form-group">
-                <input type="text" name="lastName" placeholder="last name">
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="example@mail.com">
-            </div>
-            <div class="form-group">
-                <input type="file" id="avatar" name="avatar" accept="image/*">
-            </div>
-            <div class="form-group">
-                <textarea name="about" placeholder="Shortly about your self" rows="4" cols="50"></textarea>
-            </div>
+    <div style="width: 100%; margin: 30px auto; max-width: 40rem;">
+        <form id="registrationForm" action="/register" method="POST" enctype="multipart/form-data">
+                <input class="form-group w-100" type="text" name="username" placeholder="username">
+                <input class="form-group w-100" type="password" name="password" placeholder="password">
+                <input class="form-group w-100" type="text" name="firstName" placeholder="first name">
+                <input class="form-group w-100" type="text" name="lastName" placeholder="last name">
+                <input class="form-group w-100" type="email" name="email" placeholder="example@mail.com">
+                <input class="form-group w-100" type="file" id="avatar" name="avatar" accept="image/*">
+                <textarea class="form-group w-100" name="about" placeholder="Shortly about your self" rows="4"></textarea>
             <div>
                 <label for="adminCheck">Wanna be an admin:</label>
                 <input type="checkbox" id="adminCheck">
@@ -32,10 +17,9 @@
             <div class="form-group">
                 <input type="password" name="adminCode" placeholder="You must to know a key" id="adminField">
             </div>
-            <button>Sign Up</button>
+            <button id="registrationFormTrigger" type="submit">Sign Up</button>
 
         </form>
-    </div>
     </div>
 </div>
 <script>

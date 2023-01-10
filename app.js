@@ -10,7 +10,8 @@ var express         = require("express"),
     methodOverride  = require("method-override"),
     flash           = require("connect-flash");
 
-// console.log(process.env.DATABASE_URL);
+const PORT = process.env.PORT || 8082;
+
 var url = process.env.DATABASE_URL || "mongodb://localhost/yelp_camp_v21"
 mongoose.connect(url, {useNewUrlParser: true});
 // mongoose.connect("mongodb://localhost/yelp_camp_v21", {useNewUrlParser: true});
@@ -22,7 +23,7 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();
 
-// PASSPORT + SESSION CONFIG
+// passport + session config
 app.use(require('express-session')({
     secret: "Once again Rusty wins cutest dog!",
     resave: false,
@@ -34,8 +35,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-
 
 // Local variables
 app.use(function(req, res, next){
@@ -50,11 +49,11 @@ var commentRouts    = require('./routes/comments'),
     campgroundRouts = require("./routes/campgrounds"),
     indexRoutes     = require("./routes");
 
-// ROUTS INIT
+// routes init
 app.use(indexRoutes);
 app.use('/campgrounds/:id/comments', commentRouts);
 app.use("/campgrounds", campgroundRouts);
 
-app.listen(3000, function () {
-    console.log("The YelpCamp Server Has Started!");
+app.listen(PORT, function () {
+    console.log(`YelpCamp Started on :${PORT}`);
 });
