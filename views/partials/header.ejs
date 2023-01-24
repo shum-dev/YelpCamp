@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>YelpCamp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-
-</head>
-<body>
-
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #E9ECEF; margin-bottom: 30px; font-size: 1.5rem">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/campgrounds" style="font-size: 1.5rem">YelpCamp</a>
-                <ul class="nav ml-auto">
-                    <% if(!currentUser){ %>
-                        <li class="ml-5"><a href="/login">Login</a></li>
-                        <li class="ml-5"><a href="/register">Sign Up</a></li>
-                    <% }else{ %>
-                        <li>Signed In As: <a href="/users/<%= currentUser._id %>"><strong><%= currentUser.username %></strong></a></li>
-                        <li class="ml-5"><a href="/logout">Logout</a></li>
-                    <% } %>
-                </ul>
-        </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <meta />
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-light"
+      style="background-color: #e9ecef; margin-bottom: 30px; font-size: 1.5rem"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/campgrounds" style="font-size: 1.5rem"
+          >YelpCamp</a
+        >
+        <ul class="nav ml-auto">
+          <% if(!currentUser){ %>
+          <li class="ml-5"><a href="/login">Login</a></li>
+          <li class="ml-5"><a href="/register">Sign Up</a></li>
+          <% }else{ %>
+          <li>
+            Signed In As:
+            <a href="/users/<%= currentUser._id %>"
+              ><strong><%= currentUser.username %></strong></a
+            >
+          </li>
+          <li class="ml-5"><a href="/logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </div>
     </nav>
 
     <div class="container">
-        <% if(error && error.length > 0 ){ %>
-            <div class="alert alert-danger" role="alert">
-                <%= error %>
-            </div>
-        <% } %>
-        <% if(success && success.length > 0 ){ %>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
-            </div>
-        <% } %>
+      <% if(error && error.length > 0 ){ %>
+      <div class="alert alert-danger" role="alert"><%= error %></div>
+      <% } %> <% if(success && success.length > 0 ){ %>
+      <div class="alert alert-success" role="alert"><%= success %></div>
+      <% } %>
     </div>
-    <div class="container">
+    <div class="container"></div>
+  </body>
+</html>
