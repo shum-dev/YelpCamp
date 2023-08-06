@@ -180,12 +180,12 @@ router.put(
 
 // DESTROY
 router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
-  Campground.findById(req.params.id)
+  Campground.findByIdAndRemove(req.params.id)
     .exec()
     .then(async (item) => {
       try {
         await cloudinary.v2.uploader.destroy(item.imageId);
-        item.remove();
+        // item.remove();
         req.flash("success", "Campground deleted successfully!");
         res.redirect("/campgrounds");
       } catch (err) {

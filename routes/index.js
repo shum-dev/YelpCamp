@@ -163,12 +163,12 @@ router.delete(
   "/users/:id",
   middleware.checkProfileOwnership,
   function (req, res) {
-    User.findById(req.params.id)
+    User.findByIdAndRemove(req.params.id)
       .exec()
       .then(async (item) => {
         try {
           await cloudinary.v2.uploader.destroy(item.avatarId);
-          item.remove();
+          // item.remove();
           req.flash("success", "User deleted successfully!");
           res.redirect("/campgrounds");
         } catch (err) {
